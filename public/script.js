@@ -15,7 +15,6 @@ function submitComment(event) {
   })
 
   loadComments()
-
   event.target.reset()
   event.preventDefault()
 }
@@ -27,11 +26,21 @@ async function loadComments() {
   commentsDiv.innerHTML = ''
 
   comments.forEach(c => {
+    const commentDiv = document.createElement('div')
+    commentDiv.classList.add('w-[60vw]', 'px-8', 'py-2', 'border', 'rounded')
+
     const commentText = document.createElement('p')
     commentText.innerText = c.text
-    commentsDiv.appendChild(commentText)
-  })
+    
+    const commentAuthor = document.createElement('h4')
+    commentAuthor.classList.add('font-bold')
+    commentAuthor.innerText = c.author
 
+
+    commentDiv.appendChild(commentAuthor)
+    commentDiv.appendChild(commentText)
+    commentsDiv.appendChild(commentDiv)
+  })
 }
 
 document.getElementById('commentForm').addEventListener('submit', submitComment)
