@@ -13,7 +13,7 @@ let comments = []
 
 function isValid(comment) {
   if (!comment.author || comment.author.length < 3) return false
-  if (!comment.text || comment.text.length < 10) return false
+  if (!comment.text || comment.text.length < 3) return false
   if (comment.upvotes != 0) return false
   return true
 }
