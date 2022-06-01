@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discussion</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-10 w-screen flex flex-col items-center space-y-10">
+  <form id="commentForm" class="flex space-x-5">
+    <input type="text" id="comment" name="comment" placeholder="What are your thoughts?" required class="border rounded-md px-2 py-1 w-[70vw] max-w-md">
+    <button type="submit" class="rounded-md bg-purple-600 px-2 py-1 text-white">Comment</button>
+  </form>
+
+  <div id="comments" class="w-screen border-t border-slate-300"></div>
+  <script src="script.js"></script>
+</body>
+</html>

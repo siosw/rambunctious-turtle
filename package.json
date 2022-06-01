@@ -1,0 +1,19 @@
+{
+  "name": "ghost-challenge",
+  "version": "1.0.0",
+  "description": "implements these [specifications](https://ghost.notion.site/Coding-challenge-4b8ae672b90745dda06afeeea0f27267)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mocha": "^10.0.0",
+    "nodemon": "^2.0.16",
+    "supertest": "^6.2.3"
+  }
+}
