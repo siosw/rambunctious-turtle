@@ -1,3 +1,5 @@
+const socket = io()
+
 function submitComment(event) {
   const data = new FormData(event.target)
   const body = JSON.stringify({
@@ -52,7 +54,8 @@ async function loadComments() {
     root.render(
       <Upvote 
         id={ i }
-        upvoteCount={ c.upvotes }
+        initialUpvoteCount={ c.upvotes }
+        socket={ socket }
       />
     )
 

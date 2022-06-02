@@ -1,18 +1,21 @@
-function Upvote({ id, upvoteCount }) {
-  async function onUpvote() {
-    const body = JSON.stringify({ commentIndex: id })
-    await fetch('/upvote', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: body,
-    })
-    
-    // globally reload comments to refresh count
-    // this will be unecessary once we add live refresh
-    loadComments()
+function Upvote({ id, initialUpvoteCount, socket }) {
+  const [upvoteCount, setUpvoteCount] = React.useState(initialUpvoteCount)
+  function onUpvote() {
+    socket.emit('upvote', id)
   }
+
+  React.useEffect(() => {
+    socket.on('upvote_changed', (commentIndex) => {
+      
+      console.log(id, commentIndex)
+      if (commentIndex === id) {
+        console.log('set called')
+        setUpvoteCount(upvoteCount + 1)
+      }
+
+      console.log('upvote!', upvoteCount)
+    })
+  })
 
   return (
     <div className="flex space-x-2 font-bold text-gray-500 text-small">

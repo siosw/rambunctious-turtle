@@ -1,6 +1,11 @@
 const express = require('express')
 const app = express()
 
+const http = require('http')
+const server = http.createServer(app)
+const { Server } = require('socket.io')
+const io = new Server(server)
+
 app.use(express.json()) 
 app.use(express.static('public'))
 
@@ -35,15 +40,15 @@ app.get('/comments', (req, res) => {
   res.status(200).send(comments)
 })
 
-app.post('/upvote', (req, res) => {
-  const index = req.body.commentIndex
-  if (index === undefined || index > comments.length-1 || index < 0) {
-    res.sendStatus(400)
-    return
-  }
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  socket.on('upvote', commentIndex => {
+    if (commentIndex === undefined || commentIndex > comments.length-1 || commentIndex < 0) return
+    comments[commentIndex].upvotes += 1
 
-  comments[index].upvotes += 1
-  res.sendStatus(200)
-})
+    // broadcast change to all sockets
+    io.emit('upvote_changed', commentIndex)
+  })
+});
 
-module.exports = app;
+module.exports = server;
