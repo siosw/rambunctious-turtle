@@ -19,23 +19,8 @@ function submitComment(event) {
   event.preventDefault()
 }
 
-function submitUpvote(event) {
-  const commentIndex = event.target.parentElement.parentElement.id
-  const body = JSON.stringify({ commentIndex })
-  fetch('/upvote', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: body,
-  })
-
-  loadComments()
-  event.preventDefault()
-}
-
 function getRandomAuthor() {
-  authors = [
+  const authors = [
     'Rob Hope',
     'Sophie Brecht',
     'James',
@@ -63,21 +48,18 @@ async function loadComments() {
     commentAuthor.innerText = c.author
 
     const commentUpvotes = document.createElement('div')
-    commentUpvotes.classList.add('flex', 'space-x-2', 'font-bold', 'text-gray-500', 'text-sm')
-    const upvoteCount = document.createElement('p')
-    upvoteCount.innerText = c.upvotes
-    const upvoteButton = document.createElement('button')
-    upvoteButton.innerText = 'Upvote'
-    upvoteButton.classList.add()
-    upvoteButton.addEventListener('click', submitUpvote)
-
-    commentUpvotes.appendChild(upvoteCount)
-    commentUpvotes.appendChild(upvoteButton)
+    const root = ReactDOM.createRoot(commentUpvotes)
+    root.render(
+      <Upvote 
+        id={ i }
+        upvoteCount={ c.upvotes }
+      />
+    )
 
     commentDiv.appendChild(commentAuthor)
     commentDiv.appendChild(commentText)
     commentDiv.appendChild(commentUpvotes)
-
+  
     commentsDiv.appendChild(commentDiv)
   })
 }
