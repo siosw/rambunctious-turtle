@@ -32,10 +32,10 @@ function getRandomAuthor() {
   return authors[Math.floor(Math.random() * authors.length)]
 }
 
-function renderReplies(comment) {
+function renderReplies(comment, commentId) {
   const commentsDiv = document.getElementById('comments')
 
-  comment.replies.forEach(r => {
+  comment.replies.forEach((r, i) => {
     const replyDiv = document.createElement('div')
     replyDiv.classList.add('w-[55vw]', 'px-8', 'py-2', 'ml-10', 'border', 'rounded', 'relative')
 
@@ -46,8 +46,22 @@ function renderReplies(comment) {
     replyAuthor.classList.add('font-bold')
     replyAuthor.innerText = r.author
 
+    const replyInteractions = document.createElement('div')
+    const root = ReactDOM.createRoot(replyInteractions)
+    root.render(
+      <div className="flex space-x-2 items-center">
+        <ReplyUpvote 
+          commentId={ commentId }
+          replyId={ i }
+          initialUpvoteCount={ r.upvotes }
+          socket={ socket }
+        />
+      </div>
+    )
+
     replyDiv.appendChild(replyAuthor)
     replyDiv.appendChild(replyText)
+    replyDiv.appendChild(replyInteractions)
     commentsDiv.appendChild(replyDiv)
   })
 }
@@ -91,7 +105,7 @@ async function loadComments() {
   
     commentsDiv.appendChild(commentDiv)
 
-    renderReplies(c)
+    renderReplies(c, i)
   })
 }
 

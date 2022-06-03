@@ -75,6 +75,16 @@ io.on('connection', (socket) => {
     // broadcast change to all sockets
     io.emit('upvote_changed', commentIndex)
   })
+
+  socket.on('reply_upvote', (commentIndex, replyIndex) => {
+    if (!isValidIndex(commentIndex)) return
+    comments[commentIndex].replies[replyIndex].upvotes += 1
+
+    console.log(comments)
+
+    // broadcast change to all sockets
+    io.emit('reply_upvote_changed', commentIndex, replyIndex)
+  })
 });
 
 module.exports = server;
