@@ -19,15 +19,24 @@ app.use(express.static('public'))
 //    the entire comments array on the frontend
 let comments = []
 
-function isValid(comment) {
+function isValidComment(comment) {
   if (!comment.author || comment.author.length < 3) return false
   if (!comment.text || comment.text.length < 3) return false
   if (comment.upvotes != 0) return false
+  if (!comment.isReply && (comment.replies === undefined || comment.replies.length !== 0)) return false
+
+  return true
+}
+
+function isValidIndex(commentIndex) {
+  if (commentIndex === undefined) return false
+  if (commentIndex > comments.length-1 || commentIndex < 0) return false
+
   return true
 }
 
 app.post('/comment', (req, res) => {
-  if (!isValid(req.body)) {
+  if (!isValidComment(req.body)) {
     res.sendStatus(400)
     return
   }
@@ -40,10 +49,27 @@ app.get('/comments', (req, res) => {
   res.status(200).send(comments)
 })
 
+app.post('/reply', (req, res) => {
+  const commentIndex = req.body.commentIndex
+  if (!isValidIndex(commentIndex)) {
+    res.sendStatus(400)
+    return
+  }
+
+  const reply = req.body.reply
+  if (!isValidComment(reply)) {
+    res.sendStatus(400)
+    return
+  }
+  
+  comments[commentIndex].replies.push(reply)
+  res.sendStatus(200)
+})
+
 io.on('connection', (socket) => {
   console.log('a user connected');
   socket.on('upvote', commentIndex => {
-    if (commentIndex === undefined || commentIndex > comments.length-1 || commentIndex < 0) return
+    if (!isValidIndex(commentIndex)) return
     comments[commentIndex].upvotes += 1
 
     // broadcast change to all sockets

@@ -7,6 +7,7 @@ const exampleComment = {
   author: 'Simon',
   text: 'some interesting comment',
   upvotes: 0,
+  replies: [],
 }
 
 const malformedComment = {

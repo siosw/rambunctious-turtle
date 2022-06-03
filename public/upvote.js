@@ -6,14 +6,9 @@ function Upvote({ id, initialUpvoteCount, socket }) {
 
   React.useEffect(() => {
     socket.on('upvote_changed', (commentIndex) => {
-      
-      console.log(id, commentIndex)
       if (commentIndex === id) {
-        console.log('set called')
         setUpvoteCount(upvoteCount + 1)
       }
-
-      console.log('upvote!', upvoteCount)
     })
   })
 
