@@ -6,7 +6,6 @@ function ReplyUpvote({ commentId, replyId,  initialUpvoteCount, socket }) {
 
   React.useEffect(() => {
     socket.on('reply_upvote_changed', (commentIndex, replyIndex) => {
-      console.log(commentIndex, replyIndex)
       if (commentIndex === commentId && replyIndex === replyId) {
         setUpvoteCount(upvoteCount + 1)
       }

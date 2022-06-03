@@ -47,6 +47,7 @@ function Reply({ id }) {
               name="comment" 
               placeholder="What are your thoughts?" 
               required 
+              autoFocus
               value={ replyText }
               onChange={ e => setReplyText(e.target.value) }
               className="border rounded-md px-2 py-1 w-[70vw] max-w-md" />
